@@ -1,15 +1,15 @@
 Monkey language interpreter, in Go
 ==================================
 
-## Console
-Run:
+## Run tests
+Run a Go enabled Bash in a Docker container with:
 
 ```bash
 ./console.sh
 ```
 
-then execute:
+Then execute:
 
 ```bash
-go run src/main.go
+go test
 ```

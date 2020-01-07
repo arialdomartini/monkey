@@ -1,6 +1,6 @@
 docker run \
        -v $(pwd)/src:/go/src \
-       -w /go \
+       -w /go/src \
        --rm \
        -ti \
        --name golang \
