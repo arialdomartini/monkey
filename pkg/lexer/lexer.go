@@ -9,7 +9,9 @@ type Lexer struct {
 }
 
 func New(input string) *Lexer {
-	return &Lexer{input:input}
+	l := &Lexer{input:input}
+	l.readChar()
+	return l
 }
 
 func (l *Lexer) NextToken() token.Token {
