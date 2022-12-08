@@ -15,10 +15,16 @@ func New(input string) *Lexer {
 }
 
 func (l *Lexer) NextToken() token.Token {
+	l.skipWhiteSpaces()
 	character := l.character
-	token := token.Parse(character)
-	l.readChar()
+	token := l.parse(character)
 	return token
+}
+
+func (l *Lexer) skipWhiteSpaces() {
+	for l.character == ' ' || l.character == '\n' || l.character == '\r' {
+		l.readChar()
+	}
 }
 
 func (l *Lexer) readChar() {
@@ -27,6 +33,73 @@ func (l *Lexer) readChar() {
 	} else {
 		l.character = l.input[l.readPosition]
 	}
+
 	l.position = l.readPosition
 	l.readPosition += 1
+}
+
+func (l *Lexer) parse(character byte) token.Token {
+	var t token.Token
+
+	switch character {
+	case '=':
+		t = token.Create(token.ASSIGN, character)
+	case ';':
+		t = token.Create(token.SEMICOLON, character)
+	case '(':
+		t = token.Create(token.LPAREN, character)
+	case ')':
+		t = token.Create(token.RPAREN, character)
+	case ',':
+		t = token.Create(token.COMMA, character)
+	case '+':
+		t = token.Create(token.PLUS, character)
+	case '{':
+		t = token.Create(token.LBRACE, character)
+	case '}':
+		t = token.Create(token.RBRACE, character)
+	case 0:
+		t = token.Eof()
+	default:
+		if isLetter(character) {
+			identifier := l.readIdentifier()
+			t.Literal = identifier
+			t.Type = token.LookupIdentifier(identifier)
+			return t
+		} else if isDigit(character) {
+			number := l.readNumber()
+			t.Literal = number
+			t.Type = token.INT
+			return t
+		} else {
+			t = token.Create(token.ILLEGAL, character)
+		}
+	}
+	l.readChar()
+	return t
+}
+
+func (l *Lexer) readIdentifier() string {
+	position := l.position
+	for isLetter(l.character) {
+		l.readChar()
+	}
+	return l.input[position : l.position]
+}
+
+
+func (l *Lexer) readNumber() string {
+	position := l.position
+	for isDigit(l.character) {
+		l.readChar()
+	}
+	return l.input[position : l.position]
+}
+
+func isLetter(character byte) bool {
+	return 'a' <= character && 'z' >= character || 'A' <= character && 'Z' >= character || '_' == character
+}
+
+func isDigit(character byte) bool {
+	return '0' <= character && character <= '9'
 }

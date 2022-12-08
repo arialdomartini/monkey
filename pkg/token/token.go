@@ -31,36 +31,23 @@ const (
 )
 
 
-func create(tokenType TokenType, character byte) Token {
+func Create(tokenType TokenType, character byte) Token {
 	return Token{Type: tokenType, Literal: string(character)}
 }
 
-func eof() Token {
+func Eof() Token {
 	return Token{Type: EOF, Literal: ""}
 }
 
-func Parse(character byte) Token {
-	var tok Token
+var keywords = map[string]TokenType{
+	"fn": FUNCTION,
+	"let": LET,
+}
 
-	switch character {
-	case '=':
-		tok = create(ASSIGN, character)
-	case ';':
-		tok = create(SEMICOLON, character)
-	case '(':
-		tok = create(LPAREN, character)
-	case ')':
-		tok = create(RPAREN, character)
-	case ',':
-		tok = create(COMMA, character)
-	case '+':
-		tok = create(PLUS, character)
-	case '{':
-		tok = create(LBRACE, character)
-	case '}':
-		tok = create(RBRACE, character)
-	case 0:
-		tok = eof()
+func LookupIdentifier(identifier string) TokenType {
+	if token, ok := keywords[identifier]; ok {
+		return token
+	} else {
+		return IDENT
 	}
-	return tok
 }
