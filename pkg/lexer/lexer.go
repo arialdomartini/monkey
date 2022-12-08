@@ -15,31 +15,10 @@ func New(input string) *Lexer {
 }
 
 func (l *Lexer) NextToken() token.Token {
-	var tok token.Token
-
-	switch l.character {
-	case '=':
-		tok = token.New(token.ASSIGN, l.character)
-	case ';':
-		tok = token.New(token.SEMICOLON, l.character)
-	case '(':
-		tok = token.New(token.LPAREN, l.character)
-	case ')':
-		tok = token.New(token.RPAREN, l.character)
-	case ',':
-		tok = token.New(token.COMMA, l.character)
-	case '+':
-		tok = token.New(token.PLUS, l.character)
-	case '{':
-		tok = token.New(token.LBRACE, l.character)
-	case '}':
-		tok = token.New(token.RBRACE, l.character)
-	case 0:
-		tok = token.Eof()
-	}
-
+	character := l.character
+	token := token.Parse(character)
 	l.readChar()
-	return tok
+	return token
 }
 
 func (l *Lexer) readChar() {

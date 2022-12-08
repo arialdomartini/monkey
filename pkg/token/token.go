@@ -31,10 +31,36 @@ const (
 )
 
 
-func New(tokenType TokenType, character byte) Token {
+func create(tokenType TokenType, character byte) Token {
 	return Token{Type: tokenType, Literal: string(character)}
 }
 
-func Eof() Token {
+func eof() Token {
 	return Token{Type: EOF, Literal: ""}
+}
+
+func Parse(character byte) Token {
+	var tok Token
+
+	switch character {
+	case '=':
+		tok = create(ASSIGN, character)
+	case ';':
+		tok = create(SEMICOLON, character)
+	case '(':
+		tok = create(LPAREN, character)
+	case ')':
+		tok = create(RPAREN, character)
+	case ',':
+		tok = create(COMMA, character)
+	case '+':
+		tok = create(PLUS, character)
+	case '{':
+		tok = create(LBRACE, character)
+	case '}':
+		tok = create(RBRACE, character)
+	case 0:
+		tok = eof()
+	}
+	return tok
 }
