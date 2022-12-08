@@ -19,32 +19,27 @@ func (l *Lexer) NextToken() token.Token {
 
 	switch l.character {
 	case '=':
-		tok = newToken(token.ASSIGN, l.character)
+		tok = token.New(token.ASSIGN, l.character)
 	case ';':
-		tok = newToken(token.SEMICOLON, l.character)
+		tok = token.New(token.SEMICOLON, l.character)
 	case '(':
-		tok = newToken(token.LPAREN, l.character)
+		tok = token.New(token.LPAREN, l.character)
 	case ')':
-		tok = newToken(token.RPAREN, l.character)
+		tok = token.New(token.RPAREN, l.character)
 	case ',':
-		tok = newToken(token.COMMA, l.character)
+		tok = token.New(token.COMMA, l.character)
 	case '+':
-		tok = newToken(token.PLUS, l.character)
+		tok = token.New(token.PLUS, l.character)
 	case '{':
-		tok = newToken(token.LBRACE, l.character)
+		tok = token.New(token.LBRACE, l.character)
 	case '}':
-		tok = newToken(token.RBRACE, l.character)
+		tok = token.New(token.RBRACE, l.character)
 	case 0:
-		tok.Literal = ""
-		tok.Type = token.EOF
+		tok = token.Eof()
 	}
 
 	l.readChar()
 	return tok
-}
-
-func newToken(tokenType token.TokenType, character byte) token.Token {
-	return token.Token{Type: tokenType, Literal: string(character)}
 }
 
 func (l *Lexer) readChar() {

@@ -29,3 +29,12 @@ const (
 	FUNCTION  = "FUNCTION"
 	LET       = "LET"
 )
+
+
+func New(tokenType TokenType, character byte) Token {
+	return Token{Type: tokenType, Literal: string(character)}
+}
+
+func Eof() Token {
+	return Token{Type: EOF, Literal: ""}
+}
