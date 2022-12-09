@@ -80,17 +80,17 @@ func (l *Lexer) parse(character byte) token.Token {
 }
 
 func (l *Lexer) readIdentifier() string {
-	position := l.position
-	for isLetter(l.character) {
-		l.readChar()
-	}
-	return l.input[position : l.position]
+	return l.readWhile(isLetter)
 }
 
 
 func (l *Lexer) readNumber() string {
+	return l.readWhile(isDigit)
+}
+
+func (l *Lexer) readWhile(predicate func(byte) bool) string {
 	position := l.position
-	for isDigit(l.character) {
+	for predicate(l.character) {
 		l.readChar()
 	}
 	return l.input[position : l.position]
