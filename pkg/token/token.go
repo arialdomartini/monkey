@@ -36,8 +36,13 @@ const (
 
 	LT        = "LT"
 	GT        = "GT"
-)
 
+	IF        = "IF"
+	ELSE	  = "ELSE"
+	TRUE      = "TRUE"
+	FALSE     = "FALSE"
+	RETURN    = "RETURN"
+)
 
 func Create(tokenType TokenType, character byte) Token {
 	return Token{Type: tokenType, Literal: string(character)}
@@ -50,6 +55,11 @@ func Eof() Token {
 var keywords = map[string]TokenType{
 	"fn": FUNCTION,
 	"let": LET,
+	"true":   TRUE,
+	"false":  FALSE,
+	"if":     IF,
+	"else":   ELSE,
+	"return": RETURN,
 }
 
 func LookupIdentifier(identifier string) TokenType {
