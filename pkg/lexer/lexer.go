@@ -38,12 +38,27 @@ func (l *Lexer) readChar() {
 	l.readPosition += 1
 }
 
+func (l *Lexer) peekChar() byte {
+	if l.readPosition >= len(l.input) {
+		return 0
+	} else {
+		return l.input[l.readPosition]
+	}
+}
+
 func (l *Lexer) parse(character byte) token.Token {
 	var t token.Token
 
 	switch character {
 	case '=':
-		t = token.Create(token.ASSIGN, character)
+		if(l.peekChar() == '=') {
+			first := string(character)
+			l.readChar()
+			second := string(l.character)
+			t = token.CreateS(token.EQ, first + second)
+		} else {
+			t = token.Create(token.ASSIGN, character)
+		}
 	case ';':
 		t = token.Create(token.SEMICOLON, character)
 	case '(':
@@ -59,7 +74,14 @@ func (l *Lexer) parse(character byte) token.Token {
 	case '}':
 		t = token.Create(token.RBRACE, character)
 	case '!':
-		t = token.Create(token.BANG, character)
+		if(l.peekChar() == '=') {
+			first := string(character)
+			l.readChar()
+			second := string(l.character)
+			t = token.CreateS(token.NOT_EQ, first + second)
+		} else {
+			t = token.Create(token.BANG, character)
+		}
 	case '-':
 		t = token.Create(token.MINUS, character)
 	case '/':

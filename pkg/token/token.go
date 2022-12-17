@@ -42,10 +42,16 @@ const (
 	TRUE      = "TRUE"
 	FALSE     = "FALSE"
 	RETURN    = "RETURN"
+
+	EQ        = "EQ"
+	NOT_EQ    = "NOT_EQ"
 )
 
 func Create(tokenType TokenType, character byte) Token {
-	return Token{Type: tokenType, Literal: string(character)}
+	return CreateS(tokenType, string(character))
+}
+func CreateS(tokenType TokenType, s string) Token {
+	return Token{Type: tokenType, Literal: s}
 }
 
 func Eof() Token {
