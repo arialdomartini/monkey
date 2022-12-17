@@ -46,19 +46,24 @@ func (l *Lexer) peekChar() byte {
 	}
 }
 
+func (l *Lexer) tryEvaluateSecondCharacter(character byte, firstType token.TokenType, secondCharacter byte, secondType token.TokenType) token.Token{
+	if(l.peekChar() == secondCharacter) {
+		first := string(character)
+		l.readChar()
+		second := string(l.character)
+		return token.CreateS(secondType, first + second)
+	} else {
+		return token.Create(firstType, character)
+	}
+}
+
+
 func (l *Lexer) parse(character byte) token.Token {
 	var t token.Token
 
 	switch character {
 	case '=':
-		if(l.peekChar() == '=') {
-			first := string(character)
-			l.readChar()
-			second := string(l.character)
-			t = token.CreateS(token.EQ, first + second)
-		} else {
-			t = token.Create(token.ASSIGN, character)
-		}
+		t = l.tryEvaluateSecondCharacter(character, token.ASSIGN, '=', token.EQ)
 	case ';':
 		t = token.Create(token.SEMICOLON, character)
 	case '(':
@@ -74,14 +79,7 @@ func (l *Lexer) parse(character byte) token.Token {
 	case '}':
 		t = token.Create(token.RBRACE, character)
 	case '!':
-		if(l.peekChar() == '=') {
-			first := string(character)
-			l.readChar()
-			second := string(l.character)
-			t = token.CreateS(token.NOT_EQ, first + second)
-		} else {
-			t = token.Create(token.BANG, character)
-		}
+		t = l.tryEvaluateSecondCharacter(character, token.BANG, '=', token.NOT_EQ)
 	case '-':
 		t = token.Create(token.MINUS, character)
 	case '/':
