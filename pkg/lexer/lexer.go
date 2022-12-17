@@ -58,6 +58,18 @@ func (l *Lexer) parse(character byte) token.Token {
 		t = token.Create(token.LBRACE, character)
 	case '}':
 		t = token.Create(token.RBRACE, character)
+	case '!':
+		t = token.Create(token.BANG, character)
+	case '-':
+		t = token.Create(token.MINUS, character)
+	case '/':
+		t = token.Create(token.SLASH, character)
+	case '*':
+		t = token.Create(token.ASTERISK, character)
+	case '<':
+		t = token.Create(token.LT, character)
+	case '>':
+		t = token.Create(token.GT, character)
 	case 0:
 		t = token.Eof()
 	default:

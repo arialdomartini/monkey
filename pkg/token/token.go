@@ -28,6 +28,14 @@ const (
 
 	FUNCTION  = "FUNCTION"
 	LET       = "LET"
+
+	BANG      = "BANG"
+	ASTERISK  = "ASTERISK"
+	MINUS     = "MINUS"
+	SLASH     = "SLASH"
+
+	LT        = "LT"
+	GT        = "GT"
 )
 
 
