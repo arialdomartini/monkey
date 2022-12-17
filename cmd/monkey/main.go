@@ -1,11 +1,9 @@
 package main
 
 import (
-	"fmt"
-	"github.com/arialdomartini/monkey/pkg/greetings"
+    "github.com/arialdomartini/monkey/pkg/repl"
 )
 
 func main() {
-	message, _ := greetings.Hello("Arialdo")
-	fmt.Println(message)
+	repl.Repl()
 }
